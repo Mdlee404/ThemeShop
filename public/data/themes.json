@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-02-07T12:14:58Z",
+  "generatedAt": "2026-02-07T12:15:38Z",
   "count": 1,
   "themes": [
     {
@@ -14,7 +14,7 @@
       "minAppVersion": "1.0.0",
       "minPlatformVersion": 1000,
       "tags": [],
-      "updatedAt": "2026-02-06T14:25:42Z",
+      "updatedAt": "2026-02-07T12:15:37Z",
       "package": {
         "fileName": "示例.zip",
         "sizeBytes": 263652,
