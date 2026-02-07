@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0",
+  "id": "wn",
+  "name": "万年",
+  "version": "1.0.1",
+  "author": "Mindrift",
+  "description": "test",
+  "minAppVersion": "1.0.0",
+  "minPlatformVersion": 1000,
+  "colors": {
+    "theme": "#f5c84b",
+    "background": "#b20d13",
+    "text_primary": "#f8e7b0",
+    "text_secondary": "rgba(248,231,176,0.7)",
+    "slider_selected": "#f5c84b",
+    "slider_block": "#f5c84b",
+    "slider_unselected": "rgba(248,231,176,0.25)"
+  },
+  "text": {
+    "body": "rgba(248,231,176,0.9)",
+    "caption": "rgba(248,231,176,0.7)",
+    "danger": "#ff5a5a",
+    "title": "#f8e7b0"
+  },
+  "backgrounds": {
+    "app": {
+      "type": "image",
+      "value": "images/bg_app.png"
+    },
+    "card": {
+      "type": "color",
+      "value": "rgba(178,13,19,0.65)"
+    }
+  },
+  "buttons": {
+    "danger": {
+      "bg": "rgba(255,90,90,0.2)",
+      "text": "#ff5a5a",
+      "image": "buttons/danger.png"
+    },
+    "primary": {
+      "bg": "rgba(245,200,75,0.18)",
+      "text": "#f5c84b",
+      "border": "rgba(245,200,75,0.6)",
+      "image": "buttons/primary.png"
+    }
+  },
+  "lyric": {
+    "active": "#f5c84b",
+    "normal": "#f8e7b0",
+    "active_bg": "rgba(245,200,75,0.2)"
+  },
+  "icons": {
+    "dark_mode": false,
+    "path": "icons"
+  },
+  "assets": {
+    "base": ".",
+    "images": "images",
+    "buttons": "buttons"
+  }
+}

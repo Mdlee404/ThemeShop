@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-02-07T12:51:09Z",
-  "count": 1,
+  "generatedAt": "2026-02-07T12:53:54Z",
+  "count": 2,
   "themes": [
     {
       "id": "autumn_firefly",
@@ -14,7 +14,7 @@
       "minAppVersion": "1.0.0",
       "minPlatformVersion": 1000,
       "tags": [],
-      "updatedAt": "2026-02-07T12:51:06Z",
+      "updatedAt": "2026-02-07T12:53:52Z",
       "package": {
         "fileName": "示例.zip",
         "sizeBytes": 263652,
@@ -33,6 +33,39 @@
           "./themes/autumn_firefly/icons/logo.png",
           "./themes/autumn_firefly/icons/上一曲.png",
           "./themes/autumn_firefly/icons/下一曲.png"
+        ]
+      }
+    },
+    {
+      "id": "wn",
+      "sourceId": "wn",
+      "name": "万年",
+      "version": "1.0.1",
+      "author": "Mindrift",
+      "description": "test",
+      "schemaVersion": "1.0",
+      "minAppVersion": "1.0.0",
+      "minPlatformVersion": 1000,
+      "tags": [],
+      "updatedAt": "2026-02-07T12:53:52Z",
+      "package": {
+        "fileName": "wannian.zip",
+        "sizeBytes": 325394,
+        "downloadUrl": "./downloads/wannian.zip"
+      },
+      "paths": {
+        "themeDir": "./themes/wn",
+        "themeJson": "./themes/wn/theme.json",
+        "preview": "./themes/wn/preview.png",
+        "gallery": [
+          "./themes/wn/preview.png",
+          "./themes/wn/images/bg_app.png",
+          "./themes/wn/images/cd.png",
+          "./themes/wn/buttons/danger.png",
+          "./themes/wn/buttons/primary.png",
+          "./themes/wn/icons/logo.png",
+          "./themes/wn/icons/上一曲.png",
+          "./themes/wn/icons/下一曲.png"
         ]
       }
     }
