@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-02-07T12:49:28Z",
+  "generatedAt": "2026-02-07T12:51:09Z",
   "count": 1,
   "themes": [
     {
@@ -14,7 +14,7 @@
       "minAppVersion": "1.0.0",
       "minPlatformVersion": 1000,
       "tags": [],
-      "updatedAt": "2026-02-06T14:25:42Z",
+      "updatedAt": "2026-02-07T12:51:06Z",
       "package": {
         "fileName": "示例.zip",
         "sizeBytes": 263652,
@@ -30,9 +30,9 @@
           "./themes/autumn_firefly/images/cd.png",
           "./themes/autumn_firefly/buttons/danger.png",
           "./themes/autumn_firefly/buttons/primary.png",
-          "./themes/autumn_firefly/icons/播放.png",
-          "./themes/autumn_firefly/icons/不喜欢.png",
-          "./themes/autumn_firefly/icons/菜单.png"
+          "./themes/autumn_firefly/icons/logo.png",
+          "./themes/autumn_firefly/icons/上一曲.png",
+          "./themes/autumn_firefly/icons/下一曲.png"
         ]
       }
     }
