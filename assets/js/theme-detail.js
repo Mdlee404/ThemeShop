@@ -27,7 +27,17 @@ function renderThemeButton(button) {
 }
 
 function getQueryId() {
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search || "");
+  if (params.get("id")) {
+    return (params.get("id") || "").trim().toLowerCase();
+  }
+  if (window.location.hash.startsWith("#")) {
+    const hash = window.location.hash.slice(1);
+    const hashParams = new URLSearchParams(hash);
+    if (hashParams.get("id")) {
+      return (hashParams.get("id") || "").trim().toLowerCase();
+    }
+  }
   return (params.get("id") || "").trim().toLowerCase();
 }
 
@@ -82,7 +92,7 @@ function renderMeta(theme) {
   byId("themePlatformMin").textContent = String(theme.minPlatformVersion || "1000");
   byId("themeUpdated").textContent = formatDate(theme.updatedAt) || "--";
 
-  const fileName = theme.package?.fileName || "theme.zip";
+  const fileName = theme.package?.fileName || "主题包.zip";
   const fileSize = formatFileSize(theme.package?.sizeBytes || 0);
   byId("themePackage").textContent = `${fileName} (${fileSize})`;
 
@@ -136,11 +146,11 @@ async function renderRawThemeJson(theme) {
 
   try {
     const response = await fetch(theme.paths.themeJson, { cache: "no-store" });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) throw new Error(`状态码 ${response.status}`);
     const data = await response.json();
     code.textContent = JSON.stringify(data, null, 2);
   } catch (error) {
-    code.textContent = `读取失败: ${error.message}`;
+    code.textContent = `读取失败：${error.message}`;
   }
 }
 

@@ -1,0 +1,28 @@
+{
+  "name": "pg",
+  "version": "1.0.0",
+  "description": "可部署到 Cloudflare Pages 的主题商店前端项目",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build:data": "node scripts/build-theme-index.mjs",
+    "verify:site": "node scripts/verify-site.mjs",
+    "check": "npm run build:data && npm run verify:site",
+    "test": "npm run check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mdlee404/ThemeShop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Mdlee404/ThemeShop/issues"
+  },
+  "homepage": "https://github.com/Mdlee404/ThemeShop#readme",
+  "dependencies": {
+    "adm-zip": "^0.5.16"
+  }
+}

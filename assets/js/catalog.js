@@ -1,9 +1,9 @@
-const CATALOG_URL = "/data/themes.json";
+const CATALOG_URL = "./data/themes.json";
 
 export async function loadCatalog() {
   const response = await fetch(CATALOG_URL, { cache: "no-store" });
   if (!response.ok) {
-    throw new Error(`Failed to load catalog: ${response.status}`);
+    throw new Error(`主题索引加载失败（状态码：${response.status}）`);
   }
   return response.json();
 }
@@ -14,8 +14,8 @@ export function getThemeById(catalog, id) {
 }
 
 export function formatFileSize(sizeBytes) {
-  if (!Number.isFinite(sizeBytes) || sizeBytes <= 0) return "0 B";
-  const units = ["B", "KB", "MB", "GB"];
+  if (!Number.isFinite(sizeBytes) || sizeBytes <= 0) return "0 字节";
+  const units = ["字节", "KB", "MB", "GB"];
   let size = sizeBytes;
   let unitIndex = 0;
   while (size >= 1024 && unitIndex < units.length - 1) {
@@ -38,9 +38,7 @@ export function formatDate(isoString) {
 }
 
 export function buildThemeUrl(themeId) {
-  const url = new URL("/theme.html", window.location.origin);
-  url.searchParams.set("id", themeId);
-  return `${url.pathname}${url.search}`;
+  return `./theme.html?id=${encodeURIComponent(themeId)}`;
 }
 
 export function resolveSearch(items, keyword) {
@@ -57,4 +55,3 @@ export function resolveSearch(items, keyword) {
     return fields.some((field) => String(field || "").toLowerCase().includes(query));
   });
 }
-

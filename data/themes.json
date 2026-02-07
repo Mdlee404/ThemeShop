@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-02-07T12:42:11Z",
+  "count": 1,
+  "themes": [
+    {
+      "id": "autumn_firefly",
+      "sourceId": "autumn_firefly",
+      "name": "秋夜萤灯",
+      "version": "1.0.0",
+      "author": "MindriftTeam",
+      "description": "秋夜，萤火提灯，在泛黄信纸上缝合思念的星图",
+      "schemaVersion": "1.0",
+      "minAppVersion": "1.0.0",
+      "minPlatformVersion": 1000,
+      "tags": [],
+      "updatedAt": "2026-02-06T14:25:42Z",
+      "package": {
+        "fileName": "示例.zip",
+        "sizeBytes": 263652,
+        "downloadUrl": "./downloads/示例.zip"
+      },
+      "paths": {
+        "themeDir": "./themes/autumn_firefly",
+        "themeJson": "./themes/autumn_firefly/theme.json",
+        "preview": "./themes/autumn_firefly/preview.png",
+        "gallery": [
+          "./themes/autumn_firefly/preview.png",
+          "./themes/autumn_firefly/images/bg_app.png",
+          "./themes/autumn_firefly/images/cd.png",
+          "./themes/autumn_firefly/buttons/danger.png",
+          "./themes/autumn_firefly/buttons/primary.png",
+          "./themes/autumn_firefly/icons/播放.png",
+          "./themes/autumn_firefly/icons/不喜欢.png",
+          "./themes/autumn_firefly/icons/菜单.png"
+        ]
+      }
+    }
+  ],
+  "warnings": []
+}
