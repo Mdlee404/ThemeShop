@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>主题商店 · 氦音乐</title>
+    <meta
+      name="description"
+      content="氦音乐主题商店：浏览主题预览图，查看作者和描述，进入详情后下载主题包。"
+    />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="orb-layer" aria-hidden="true">
+        <div class="orb orb-a"></div>
+        <div class="orb orb-b"></div>
+        <div class="orb orb-c"></div>
+      </div>
+
+      <header class="container top-nav">
+        <a class="brand" href="/index.html">
+          <span id="logoIcon"></span>
+          <span>氦音乐主题商店</span>
+        </a>
+
+        <div class="nav-actions">
+          <a class="btn ghost" href="/builder.html">主题制作工具</a>
+          <button id="themeSwitch" class="icon-btn" type="button" aria-label="切换主题"></button>
+        </div>
+      </header>
+
+      <main class="container">
+        <section class="hero">
+          <div class="hero-box glass-card">
+            <h1 class="hero-title">简洁现代的主题仓库，<br />为你的 APP 提供可下载主题包</h1>
+            <p class="hero-sub">
+              支持 GitHub 上传 ZIP 主题包，自动解压并汇总 `theme.json` 到统一索引。
+              页面可查看预览、作者、描述，并一键进入详情下载。
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn primary" href="#themeSection"><span id="heroSpark"></span> 浏览主题</a>
+              <a class="btn ghost" href="/builder.html">打开 Web 制作工具</a>
+            </div>
+
+            <div class="search-wrap">
+              <span id="searchIcon"></span>
+              <input id="searchInput" type="search" placeholder="搜索主题名 / 作者 / 标签" />
+            </div>
+
+            <div class="stats">
+              <div class="stat-card">
+                <div class="stat-label">主题总数</div>
+                <div class="stat-value" id="statCount">--</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">最近生成</div>
+                <div class="stat-value" id="statDate">--</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">数据警告</div>
+                <div class="stat-value" id="statWarnings">--</div>
+              </div>
+            </div>
+
+            <div class="feature-row">
+              <div class="feature-card"><span id="featureMobile"></span><span>移动优先适配</span></div>
+              <div class="feature-card"><span id="featureDesktop"></span><span>PC 浏览舒适布局</span></div>
+              <div class="feature-card"><span id="featureCode"></span><span>自动化数据流水线</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="themeSection">
+          <h2 class="section-title">主题列表</h2>
+          <div id="loadingState" class="state-box">正在加载主题数据...</div>
+          <div id="errorState" class="state-box" hidden>加载失败：<span id="errorMessage"></span></div>
+          <div id="emptyState" class="state-box" hidden>未找到匹配主题，试试其他关键字。</div>
+          <div id="themeGrid" class="theme-grid"></div>
+        </section>
+      </main>
+
+      <footer class="container footer">
+        <div>Cloudflare Pages · GitHub Actions · Theme Spec v1.0</div>
+        <div>
+          使用说明见
+          <a href="/guide.html">部署指南</a>
+          ，数据源为
+          <a href="/data/themes.json">/data/themes.json</a>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="/assets/js/main.js"></script>
+  </body>
+</html>

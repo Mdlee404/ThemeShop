@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>主题详情</title>
+    <meta name="description" content="主题详情页：预览、下载、查看主题 JSON。" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="container top-nav">
+        <a class="brand" href="/index.html">
+          <span id="logoIcon"></span>
+          <span>氦音乐主题商店</span>
+        </a>
+
+        <div class="nav-actions">
+          <a class="btn ghost" href="/index.html"><span id="backIcon"></span> 返回列表</a>
+          <button id="themeSwitch" class="icon-btn" type="button" aria-label="切换主题"></button>
+        </div>
+      </header>
+
+      <main class="container">
+        <div id="loadingState" class="state-box">正在加载主题详情...</div>
+        <div id="errorState" class="state-box" hidden>加载失败：<span id="errorMessage"></span></div>
+
+        <section class="detail-layout">
+          <article class="detail-gallery glass-card">
+            <img id="detailMainImage" class="detail-main-image" alt="主题预览" />
+            <div id="detailThumbs" class="thumb-list"></div>
+          </article>
+
+          <aside class="detail-meta glass-card">
+            <div>
+              <h1 id="themeName" class="hero-title" style="font-size: 1.7rem; margin: 0"></h1>
+              <p id="themeDescription" class="hero-sub"></p>
+            </div>
+
+            <div class="meta-panel">
+              <div class="meta-k">作者</div>
+              <div id="themeAuthor" class="meta-v"></div>
+            </div>
+            <div class="meta-panel">
+              <div class="meta-k">版本</div>
+              <div id="themeVersion" class="meta-v"></div>
+            </div>
+            <div class="meta-panel">
+              <div class="meta-k">规范版本</div>
+              <div id="themeSchema" class="meta-v"></div>
+            </div>
+            <div class="meta-panel">
+              <div class="meta-k">最小 App 版本</div>
+              <div id="themeAppMin" class="meta-v mono"></div>
+            </div>
+            <div class="meta-panel">
+              <div class="meta-k">最小平台版本</div>
+              <div id="themePlatformMin" class="meta-v mono"></div>
+            </div>
+            <div class="meta-panel">
+              <div class="meta-k">最后更新</div>
+              <div id="themeUpdated" class="meta-v"></div>
+            </div>
+            <div class="meta-panel">
+              <div class="meta-k">主题包</div>
+              <div id="themePackage" class="meta-v mono"></div>
+            </div>
+            <div class="meta-panel">
+              <div class="meta-k">标签</div>
+              <div id="themeTags" class="meta-tags"></div>
+            </div>
+
+            <div class="detail-actions">
+              <a id="downloadBtn" class="btn primary" href="#"><span id="downloadIcon"></span> 下载主题</a>
+              <a id="rawJsonBtn" class="btn ghost" href="#">查看原始 JSON</a>
+              <button id="copySnippetBtn" class="btn ghost" type="button"><span id="copyIcon"></span> 复制主题片段</button>
+            </div>
+          </aside>
+        </section>
+
+        <section>
+          <h2 class="section-title">theme.json</h2>
+          <pre class="json-block"><code id="rawThemeJson" class="mono"></code></pre>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/assets/js/theme-detail.js"></script>
+  </body>
+</html>
+

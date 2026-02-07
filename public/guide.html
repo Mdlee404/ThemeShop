@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>部署指南 · 主题商店</title>
+    <link rel="stylesheet" href="/assets/css/app.css" />
+  </head>
+  <body>
+    <main class="container" style="padding: 24px 0 40px">
+      <section class="glass-card" style="padding: 20px">
+        <h1 class="hero-title" style="font-size: 1.8rem; margin-top: 0">Cloudflare Pages 部署指南</h1>
+        <p class="hero-sub">推荐流程：GitHub Actions 先生成数据，Pages 直接发布 `public/`。</p>
+        <ol>
+          <li>把主题 ZIP 上传到仓库 `packages/`。</li>
+          <li>等待工作流 `.github/workflows/sync-theme-catalog.yml` 执行完成。</li>
+          <li>在 Cloudflare Pages 连接仓库，输出目录设为 <code>public</code>。</li>
+          <li>访问 <code>/index.html</code> 即可使用主题商店。</li>
+        </ol>
+        <a class="btn primary" href="/index.html">返回主题商店</a>
+      </section>
+    </main>
+  </body>
+</html>
+

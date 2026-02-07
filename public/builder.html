@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>主题制作工具 · Web 版</title>
+    <meta name="description" content="在浏览器中快速创建主题 JSON，支持即时预览、复制和下载。" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="container top-nav">
+        <a class="brand" href="/index.html">
+          <span id="logoIcon"></span>
+          <span>氦音乐主题制作工具</span>
+        </a>
+
+        <div class="nav-actions">
+          <a class="btn ghost" href="/index.html">返回主题商店</a>
+          <button id="themeSwitch" class="icon-btn" type="button" aria-label="切换主题"></button>
+        </div>
+      </header>
+
+      <main class="container">
+        <section class="hero">
+          <div class="hero-box glass-card">
+            <h1 class="hero-title">浏览器主题编辑器</h1>
+            <p class="hero-sub">快速生成符合 Theme Spec v1.0 的 `theme.json`，用于打包后上传到仓库。</p>
+
+            <div class="feature-row" style="margin-top: 2px">
+              <div class="feature-card"><span id="paletteIcon"></span><span>颜色与按钮可视化编辑</span></div>
+              <div class="feature-card"><span id="sparkIcon"></span><span>即时预览效果</span></div>
+              <div class="feature-card"><span id="checkIcon"></span><span>导出可直接使用的 JSON</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="builder-layout">
+          <article class="builder-panel glass-card">
+            <h2 class="section-title" style="margin-top: 0">基础信息</h2>
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="themeId">主题 ID（小写字母/数字/下划线）</label>
+                <input id="themeId" class="mono" />
+              </div>
+              <div class="field">
+                <label for="themeName">显示名称</label>
+                <input id="themeName" />
+              </div>
+              <div class="field">
+                <label for="themeVersion">版本</label>
+                <input id="themeVersion" class="mono" />
+              </div>
+              <div class="field">
+                <label for="themeAuthor">作者</label>
+                <input id="themeAuthor" />
+              </div>
+              <div class="field full">
+                <label for="themeDesc">描述</label>
+                <textarea id="themeDesc"></textarea>
+              </div>
+              <div class="field">
+                <label for="themeMinApp">最小 App 版本</label>
+                <input id="themeMinApp" class="mono" />
+              </div>
+              <div class="field">
+                <label for="themeMinPlatform">最小平台版本</label>
+                <input id="themeMinPlatform" type="number" class="mono" />
+              </div>
+            </div>
+
+            <h2 class="section-title">颜色</h2>
+            <div class="field-grid">
+              <div class="field">
+                <label for="themeColor">主题色</label>
+                <input id="themeColor" type="color" />
+              </div>
+              <div class="field">
+                <label for="bgColor">背景色</label>
+                <input id="bgColor" type="color" />
+              </div>
+              <div class="field">
+                <label for="textPrimary">主文字（支持 rgba）</label>
+                <input id="textPrimary" class="mono" />
+              </div>
+              <div class="field">
+                <label for="textSecondary">次文字（支持 rgba）</label>
+                <input id="textSecondary" class="mono" />
+              </div>
+              <div class="field">
+                <label for="sliderSelected">进度条已选颜色</label>
+                <input id="sliderSelected" class="mono" />
+              </div>
+              <div class="field">
+                <label for="sliderUnselected">进度条未选颜色</label>
+                <input id="sliderUnselected" class="mono" />
+              </div>
+            </div>
+
+            <h2 class="section-title">按钮</h2>
+            <div class="field-grid">
+              <div class="field">
+                <label for="primaryBg">主按钮背景</label>
+                <input id="primaryBg" class="mono" />
+              </div>
+              <div class="field">
+                <label for="primaryText">主按钮文字</label>
+                <input id="primaryText" class="mono" />
+              </div>
+              <div class="field">
+                <label for="dangerBg">危险按钮背景</label>
+                <input id="dangerBg" class="mono" />
+              </div>
+              <div class="field">
+                <label for="dangerText">危险按钮文字</label>
+                <input id="dangerText" class="mono" />
+              </div>
+            </div>
+
+            <h2 class="section-title">可选资源文件（打包到 ZIP）</h2>
+            <div class="field-grid">
+              <div class="field full">
+                <label for="previewFile">预览图（preview.png）</label>
+                <input id="previewFile" type="file" accept="image/*" />
+              </div>
+              <div class="field full">
+                <label for="bgAppFile">背景图（images/bg_app.*）</label>
+                <input id="bgAppFile" type="file" accept="image/*" />
+              </div>
+              <div class="field full">
+                <label for="primaryBtnFile">主按钮图（buttons/primary.*）</label>
+                <input id="primaryBtnFile" type="file" accept="image/*" />
+              </div>
+              <div class="field full">
+                <label for="dangerBtnFile">危险按钮图（buttons/danger.*）</label>
+                <input id="dangerBtnFile" type="file" accept="image/*" />
+              </div>
+            </div>
+            <div class="hint">支持直接下载 ZIP：至少包含 `theme.json`，可附带以上文件。</div>
+
+            <div class="builder-actions">
+              <button id="copyBtn" class="btn ghost" type="button">复制 JSON</button>
+              <button id="downloadJsonBtn" class="btn ghost" type="button">下载 JSON</button>
+              <button id="downloadZipBtn" class="btn primary" type="button">下载 ZIP 主题包</button>
+              <button id="resetBtn" class="btn ghost" type="button">重置默认值</button>
+            </div>
+          </article>
+
+          <aside class="builder-panel glass-card">
+            <h2 class="section-title" style="margin-top: 0">即时预览</h2>
+            <div class="preview-mock">
+              <div id="mockScreen" class="mock-screen">
+                <div>
+                  <div id="mockTitle" style="font-weight: 700; font-size: 1.05rem">主题预览 · 正在播放</div>
+                  <div id="mockSub" style="font-size: 0.82rem; margin-top: 4px">Artist - Track Name</div>
+                </div>
+
+                <div class="mock-card">
+                  <div id="mockBody">这是一段正文示例，用于观察文字对比度。</div>
+                  <div id="mockLyric" style="margin-top: 8px; font-weight: 600">♪ 活跃歌词颜色预览</div>
+                  <div id="mockProgress" style="margin-top: 10px; height: 6px; border-radius: 999px; overflow: hidden">
+                    <div id="mockProgressInner" style="height: 100%; width: 62%"></div>
+                  </div>
+                </div>
+
+                <div class="toolbar-row">
+                  <button id="mockPrimary" class="btn" style="height: 34px">主按钮</button>
+                  <button id="mockDanger" class="btn" style="height: 34px">危险按钮</button>
+                </div>
+              </div>
+            </div>
+
+            <h2 class="section-title">JSON 结果</h2>
+            <div class="hint">可直接保存为主题目录内的 `theme.json`</div>
+            <pre class="json-block"><code id="jsonPreview" class="mono"></code></pre>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/assets/js/builder.js"></script>
+  </body>
+</html>
