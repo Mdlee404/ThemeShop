@@ -8,9 +8,257 @@
       name="description"
       content="氦音乐主题商店：浏览主题预览图，查看作者和描述，进入详情后下载主题包。"
     />
+    <!-- 保留您原有的 CSS -->
     <link rel="stylesheet" href="./assets/css/app.css" />
+    <!-- 引入优雅的无衬线字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- 注入高级感樱花主题样式 -->
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            --text-main: #4a4a4a;
+            --text-muted: #888;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ffe6fa 100%);
+            margin: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 覆盖/增强原有容器样式，注入毛玻璃效果 */
+        .page-shell {
+            position: relative;
+            z-index: 2; /* 确保在樱花上方 */
+            padding-bottom: 60px;
+        }
+
+        /* 顶部导航毛玻璃 */
+        .top-nav {
+            background: rgba(255, 255, 255, 0.3) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 15px 30px;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 4px 30px rgba(255, 118, 163, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #ff5277;
+            text-decoration: none;
+        }
+
+        /* 核心毛玻璃卡片 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(255, 118, 163, 0.1), 
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            text-align: center;
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .hero-title {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.4rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .hero-sub {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* 按钮美化 */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .btn.primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
+        }
+
+        .btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 117, 140, 0.4);
+        }
+
+        .btn.ghost {
+            background: rgba(255, 255, 255, 0.5);
+            color: #ff5277;
+            border: 1px solid rgba(255, 117, 140, 0.3);
+        }
+
+        .btn.ghost:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* 统计卡片美化 */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff5277;
+        }
+
+        /* 搜索框美化 */
+        .search-wrap {
+            margin: 30px auto;
+            max-width: 500px;
+            position: relative;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            font-size: 1rem;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        #searchInput:focus {
+            border-color: #ff758c;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 20px rgba(255, 117, 140, 0.15);
+        }
+
+        /* 樱花画布置于底层 */
+        #sakuraCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 升级版超可爱互动小猫样式 --- */
+        #interactive-cat {
+            position: fixed;
+            bottom: -15px; /* 稍微往下沉一点，露出爪子扒着的感觉 */
+            right: 5%;
+            width: 160px; /* 稍微放大一点点 */
+            height: 160px;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 8px 20px rgba(255, 118, 163, 0.25));
+        }
+
+        #interactive-cat:hover {
+            transform: translateY(-12px);
+        }
+
+        #cat-tail {
+            transform-origin: 160px 160px;
+            animation: tailWag 3.5s ease-in-out infinite;
+        }
+
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(18deg); }
+        }
+
+        #meow-bubble {
+            position: absolute;
+            top: -25px;
+            left: 0px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #ffb3e6;
+            padding: 8px 16px;
+            border-radius: 16px 16px 16px 0;
+            font-size: 15px;
+            color: #ff5277;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 6px 15px rgba(255, 117, 140, 0.15);
+            transform: translateY(15px) scale(0.8);
+            transform-origin: bottom left;
+        }
+        
+        #eyes-group {
+            transition: transform 0.15s;
+            transform-origin: 100px 130px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    </style>
   </head>
   <body>
+    <!-- 樱花层 -->
+    <canvas id="sakuraCanvas"></canvas>
+
     <div class="page-shell">
       <div class="orb-layer" aria-hidden="true">
         <div class="orb orb-a"></div>
@@ -20,13 +268,13 @@
 
       <header class="container top-nav">
         <a class="brand" href="./index.html">
-          <span id="logoIcon"></span>
+          <span id="logoIcon">🎵</span>
           <span>氦音乐主题商店</span>
         </a>
 
         <div class="nav-actions">
           <a class="btn ghost" href="./builder.html">主题制作工具</a>
-          <button id="themeSwitch" class="icon-btn" type="button" aria-label="切换主题"></button>
+          <button id="themeSwitch" class="icon-btn" style="background:none;border:none;cursor:pointer;font-size:1.2rem;" type="button" aria-label="切换主题">✨</button>
         </div>
       </header>
 
@@ -35,18 +283,18 @@
           <div class="hero-box glass-card">
             <h1 class="hero-title">简洁现代的主题仓库，<br />为你的应用提供可下载主题包</h1>
             <p class="hero-sub">
-              支持 GitHub 上传 ZIP 主题包，自动解压并汇总 `theme.json` 到统一索引。
+              支持 GitHub 上传 ZIP 主题包，自动解压并汇总 `theme.json` 到统一索引。<br>
               页面可查看预览、作者、描述，并一键进入详情下载。
             </p>
 
             <div class="hero-actions">
-              <a class="btn primary" href="#themeSection"><span id="heroSpark"></span> 浏览主题</a>
+              <a class="btn primary" href="#themeSection"><span id="heroSpark">✨</span> 浏览主题</a>
               <a class="btn ghost" href="./builder.html">打开 Web 制作工具</a>
             </div>
 
             <div class="search-wrap">
-              <span id="searchIcon"></span>
-              <input id="searchInput" type="search" placeholder="搜索主题名 / 作者 / 标签" />
+              <span id="searchIcon" style="position:absolute; left:20px; top:17px; opacity:0.5;">🔍</span>
+              <input id="searchInput" type="search" placeholder="    搜索主题名 / 作者 / 标签" />
             </div>
 
             <div class="stats">
@@ -64,34 +312,240 @@
               </div>
             </div>
 
-            <div class="feature-row">
-              <div class="feature-card"><span id="featureMobile"></span><span>移动优先适配</span></div>
-              <div class="feature-card"><span id="featureDesktop"></span><span>PC 浏览舒适布局</span></div>
-              <div class="feature-card"><span id="featureCode"></span><span>自动化数据流水线</span></div>
+            <div class="feature-row" style="margin-top: 30px; display:flex; justify-content:center; gap:20px; font-size:0.9rem; color:var(--text-muted);">
+              <div class="feature-card"><span id="featureMobile">📱</span> <span>移动优先适配</span></div>
+              <div class="feature-card"><span id="featureDesktop">💻</span> <span>PC 浏览舒适布局</span></div>
+              <div class="feature-card"><span id="featureCode">⚡</span> <span>自动化数据流水线</span></div>
             </div>
           </div>
         </section>
 
-        <section id="themeSection">
-          <h2 class="section-title">主题列表</h2>
+        <section id="themeSection" style="margin-top: 60px; text-align: center;">
+          <h2 class="section-title" style="color:#ff5277;">主题列表</h2>
           <div id="loadingState" class="state-box">正在加载主题数据...</div>
           <div id="errorState" class="state-box" hidden>加载失败：<span id="errorMessage"></span></div>
           <div id="emptyState" class="state-box" hidden>未找到匹配主题，试试其他关键字。</div>
-          <div id="themeGrid" class="theme-grid"></div>
+          <div id="themeGrid" class="theme-grid" style="display:grid; gap:20px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); margin-top:30px;">
+              <!-- 主题卡片将由您的 main.js 动态渲染 -->
+          </div>
         </section>
       </main>
 
-      <footer class="container footer">
+      <footer class="container footer" style="text-align:center; margin-top:60px; color:var(--text-muted); font-size:0.9rem; line-height:1.8;">
         <div>Cloudflare Pages · GitHub Actions · 主题规范 v1.0</div>
         <div>
-          使用说明见
-          <a href="./guide.html">部署指南</a>
-          ，数据源为
-          <a href="./data/themes.json">./data/themes.json</a>
+          使用说明见 <a href="./guide.html" style="color:#ff5277; text-decoration:none;">部署指南</a> ，数据源为 <a href="./data/themes.json" style="color:#ff5277; text-decoration:none;">./data/themes.json</a>
         </div>
       </footer>
     </div>
 
+    <!-- 升级版更可爱的小猫 SVG -->
+    <div id="interactive-cat">
+        <div id="meow-bubble">喵~ 🎵</div>
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <!-- 毛茸茸的尾巴 (加粗更可爱) -->
+            <path id="cat-tail" d="M 140 160 Q 190 190 180 110" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
+            
+            <!-- 更加圆润胖嘟嘟的身体 -->
+            <path d="M 35 200 C 35 110 165 110 165 200 Z" fill="#fff"/>
+            
+            <!-- 耳朵 (变宽变钝，更萌) -->
+            <!-- 后面的耳朵 (右) -->
+            <path d="M 130 110 L 165 60 C 168 55 175 60 170 68 L 145 115 Z" fill="#fff"/>
+            <path d="M 135 105 L 160 68 C 162 65 166 68 164 72 L 148 108 Z" fill="#ffe6fa"/>
+            
+            <!-- 前面的耳朵 (左) -->
+            <path d="M 70 110 L 35 60 C 32 55 25 60 30 68 L 55 115 Z" fill="#fff"/>
+            <path d="M 65 105 L 40 68 C 38 65 34 68 36 72 L 52 108 Z" fill="#ffe6fa"/>
+            
+            <!-- 大圆脸 -->
+            <ellipse cx="100" cy="135" rx="65" ry="52" fill="#fff"/>
+            
+            <g id="eyes-group">
+                <!-- 更大的卡姿兰大眼睛基底 -->
+                <ellipse cx="70" cy="130" rx="14" ry="17" fill="#fff" stroke="#f0f0f0" stroke-width="2"/>
+                <ellipse cx="130" cy="130" rx="14" ry="17" fill="#fff" stroke="#f0f0f0" stroke-width="2"/>
+                
+                <!-- 瞳孔 (随鼠标移动) -->
+                <g id="pupils">
+                    <!-- 黑眼珠 -->
+                    <circle cx="70" cy="130" r="10" fill="#4a4a4a"/>
+                    <circle cx="130" cy="130" r="10" fill="#4a4a4a"/>
+                    <!-- 灵魂大高光 -->
+                    <circle cx="67" cy="126" r="4" fill="#fff"/>
+                    <circle cx="127" cy="126" r="4" fill="#fff"/>
+                    <!-- 小高光 -->
+                    <circle cx="74" cy="134" r="1.5" fill="#fff"/>
+                    <circle cx="134" cy="134" r="1.5" fill="#fff"/>
+                </g>
+            </g>
+            
+            <!-- 更小巧的鼻子和嘴巴 -->
+            <polygon points="98,144 102,144 100,147" fill="#ffb3e6"/>
+            <path d="M 92 150 Q 96 155 100 150 Q 104 155 108 150" fill="none" stroke="#ffb3e6" stroke-width="2" stroke-linecap="round"/>
+            
+            <!-- 明显的红晕 -->
+            <ellipse cx="50" cy="142" rx="10" ry="5" fill="#ffb3e6" opacity="0.6"/>
+            <ellipse cx="150" cy="142" rx="10" ry="5" fill="#ffb3e6" opacity="0.6"/>
+
+            <!-- 新增：扒在屏幕边缘的可爱小爪子 -->
+            <path d="M 60 200 C 60 185 80 185 80 200" fill="#fff" stroke="#ffe6fa" stroke-width="3"/>
+            <path d="M 120 200 C 120 185 140 185 140 200" fill="#fff" stroke="#ffe6fa" stroke-width="3"/>
+        </svg>
+    </div>
+
+    <!-- 保留您原有的 JS 逻辑 -->
     <script type="module" src="./assets/js/main.js"></script>
+
+    <!-- 注入樱花动画与小猫互动 JS -->
+    <script>
+        // --- 樱花飘落动画 ---
+        const canvas = document.getElementById('sakuraCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const petals = [];
+        const numPetals = 60; // 优化性能
+
+        class Petal {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = 7 + Math.random() * 8;
+                this.speedY = 0.8 + Math.random() * 1.2;
+                this.speedX = -1 + Math.random() * 1.5;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = -0.04 + Math.random() * 0.08;
+                this.flip = Math.random();
+                this.flipSpeed = Math.random() * 0.04;
+                this.opacity = 0.4 + Math.random() * 0.5;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                this.flip += this.flipSpeed;
+
+                this.speedX += (Math.random() - 0.5) * 0.02;
+                if (this.speedX > 2) this.speedX = 2;
+                if (this.speedX < -2) this.speedX = -2;
+
+                if (this.y > canvas.height + this.size || 
+                    this.x < -this.size || 
+                    this.x > canvas.width + this.size) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.scale(Math.sin(this.flip), 1);
+                ctx.globalAlpha = this.opacity;
+
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(this.size / 2, -this.size / 1.5, this.size, this.size / 3, 0, this.size);
+                ctx.bezierCurveTo(-this.size, this.size / 3, -this.size / 2, -this.size / 1.5, 0, 0);
+                ctx.closePath();
+
+                const gradient = ctx.createLinearGradient(0, 0, 0, this.size);
+                gradient.addColorStop(0, '#ffd1eb');
+                gradient.addColorStop(1, '#ff80cc');
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < numPetals; i++) petals.push(new Petal());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < petals.length; i++) {
+                petals[i].update();
+                petals[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 升级版小猫互动逻辑 ---
+        const cat = document.getElementById('interactive-cat');
+        const pupils = document.getElementById('pupils');
+        const bubble = document.getElementById('meow-bubble');
+        const eyesGroup = document.getElementById('eyes-group');
+        let meowTimeout;
+
+        // 视线跟随
+        document.addEventListener('mousemove', (e) => {
+            const catRect = cat.getBoundingClientRect();
+            const catCenterX = catRect.left + catRect.width / 2;
+            const catCenterY = catRect.top + catRect.height * 0.6; 
+
+            const deltaX = e.clientX - catCenterX;
+            const deltaY = e.clientY - catCenterY;
+            const angle = Math.atan2(deltaY, deltaX);
+            
+            // 增大了视线移动范围，让小猫看起来更灵动
+            const distance = Math.min(Math.hypot(deltaX, deltaY) / 50, 6); 
+
+            const moveX = Math.cos(angle) * distance;
+            const moveY = Math.sin(angle) * distance;
+
+            pupils.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+
+        // 互动点击 (跳跃 + 弹气泡)
+        cat.addEventListener('click', () => {
+            cat.style.transform = 'translateY(-35px) scale(1.08)';
+            setTimeout(() => {
+                cat.style.transform = '';
+            }, 350);
+
+            bubble.style.opacity = '1';
+            bubble.style.transform = 'translateY(-10px) scale(1)';
+            
+            clearTimeout(meowTimeout);
+            meowTimeout = setTimeout(() => {
+                bubble.style.opacity = '0';
+                bubble.style.transform = 'translateY(15px) scale(0.8)';
+            }, 2500); // 气泡停留时间加长一点点
+        });
+
+        // 随机灵动眨眼
+        function randomBlink() {
+            eyesGroup.style.transform = 'scaleY(0.05)'; // 闭得更紧
+            setTimeout(() => {
+                eyesGroup.style.transform = 'scaleY(1)';
+            }, 120); 
+
+            // 有小概率连续眨眼两次 (卖萌)
+            if(Math.random() > 0.8) {
+                setTimeout(() => {
+                    eyesGroup.style.transform = 'scaleY(0.05)';
+                    setTimeout(() => { eyesGroup.style.transform = 'scaleY(1)'; }, 120);
+                }, 200);
+            }
+
+            const nextBlink = 2000 + Math.random() * 3500;
+            setTimeout(randomBlink, nextBlink);
+        }
+        setTimeout(randomBlink, 2000);
+    </script>
   </body>
 </html>
