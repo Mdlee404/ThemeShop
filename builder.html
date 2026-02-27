@@ -6,31 +6,299 @@
     <title>主题制作工具 · Web 版</title>
     <meta name="description" content="在浏览器中快速创建主题 JSON，支持即时预览、复制和下载。" />
     <link rel="stylesheet" href="./assets/css/app.css" />
+    <!-- 引入优雅的无衬线字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- 注入高级感樱花主题与表单页定制样式 -->
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            --text-main: #4a4a4a;
+            --text-muted: #888;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ffe6fa 100%);
+            margin: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page-shell {
+            position: relative;
+            z-index: 2; 
+            padding-bottom: 60px;
+        }
+
+        /* 顶部导航毛玻璃 */
+        .top-nav {
+            background: rgba(255, 255, 255, 0.3) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 15px 30px;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 4px 30px rgba(255, 118, 163, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #ff5277;
+            text-decoration: none;
+        }
+
+        /* 核心毛玻璃卡片 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(255, 118, 163, 0.1), 
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .hero-title {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.4rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .hero-sub {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* 制作工具特定布局增强 */
+        .builder-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .builder-panel {
+            flex: 1 1 45%;
+            min-width: 300px;
+        }
+
+        /* 输入框毛玻璃质感增强 */
+        input[type="text"], input[type="number"], input[type="color"], textarea {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 118, 163, 0.3);
+            border-radius: 12px;
+            padding: 10px 15px;
+            font-family: inherit;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #ff758c;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(255, 117, 140, 0.15);
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .field { margin-bottom: 20px; }
+
+        .json-block {
+            background: rgba(255, 255, 255, 0.45) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(255, 118, 163, 0.05);
+            overflow-x: auto;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* 按钮美化 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn.primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
+        }
+
+        .btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 117, 140, 0.4);
+        }
+
+        .btn.ghost {
+            background: rgba(255, 255, 255, 0.5);
+            color: #ff5277;
+            border: 1px solid rgba(255, 117, 140, 0.3);
+        }
+
+        .btn.ghost:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .builder-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* 樱花画布置于底层 */
+        #sakuraCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 超可爱互动小猫样式 --- */
+        #interactive-cat {
+            position: fixed;
+            bottom: -15px; 
+            right: 5%;
+            width: 160px; 
+            height: 160px;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 8px 20px rgba(255, 118, 163, 0.25));
+        }
+
+        #interactive-cat:hover {
+            transform: translateY(-12px);
+        }
+
+        #cat-tail {
+            transform-origin: 160px 160px;
+            animation: tailWag 3.5s ease-in-out infinite;
+        }
+
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(18deg); }
+        }
+
+        #meow-bubble {
+            position: absolute;
+            top: -45px;
+            left: -40px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #ffb3e6;
+            padding: 10px 18px;
+            border-radius: 18px 18px 18px 0;
+            font-size: 14px;
+            color: #ff5277;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 6px 15px rgba(255, 117, 140, 0.15);
+            transform: translateY(15px) scale(0.8);
+            transform-origin: bottom left;
+            white-space: nowrap;
+        }
+        
+        #eyes-group {
+            transition: transform 0.15s;
+            transform-origin: 100px 130px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            color: #ff5277;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+    </style>
   </head>
   <body>
+    <!-- 樱花层 -->
+    <canvas id="sakuraCanvas"></canvas>
+
     <div class="page-shell">
       <header class="container top-nav">
         <a class="brand" href="./index.html">
-          <span id="logoIcon"></span>
+          <span id="logoIcon">🎵</span>
           <span>氦音乐主题制作工具</span>
         </a>
 
         <div class="nav-actions">
-          <a class="btn ghost" href="./index.html">返回主题商店</a>
-          <button id="themeSwitch" class="icon-btn" type="button" aria-label="切换主题"></button>
+          <a class="btn ghost" href="./index.html" style="padding: 8px 20px; font-size: 0.9rem;">
+             ⬅️ 返回主题商店
+          </a>
+          <button id="themeSwitch" class="icon-btn" style="background:none;border:none;cursor:pointer;font-size:1.2rem;" type="button" aria-label="切换主题">✨</button>
         </div>
       </header>
 
       <main class="container">
-        <section class="hero">
+        <section class="hero" style="margin-bottom: 40px;">
           <div class="hero-box glass-card">
             <h1 class="hero-title">浏览器主题编辑器</h1>
             <p class="hero-sub">快速生成符合 Theme Spec v1.0 的 `theme.json`，用于打包后上传到仓库。</p>
 
-            <div class="feature-row" style="margin-top: 2px">
-              <div class="feature-card"><span id="paletteIcon"></span><span>颜色与按钮可视化编辑</span></div>
-              <div class="feature-card"><span id="sparkIcon"></span><span>即时预览效果</span></div>
-              <div class="feature-card"><span id="checkIcon"></span><span>导出可直接使用的 JSON</span></div>
+            <div class="feature-row" style="margin-top: 20px; display:flex; justify-content:center; gap:30px; font-size:0.95rem; color:var(--text-muted);">
+              <div class="feature-card"><span id="paletteIcon">🎨</span> <span>颜色与按钮可视化编辑</span></div>
+              <div class="feature-card"><span id="sparkIcon">✨</span> <span>即时预览效果</span></div>
+              <div class="feature-card"><span id="checkIcon">✅</span> <span>导出可直接使用的 JSON</span></div>
             </div>
           </div>
         </section>
@@ -39,86 +307,86 @@
           <article class="builder-panel glass-card">
             <h2 class="section-title" style="margin-top: 0">基础信息</h2>
 
-            <div class="field-grid">
+            <div class="field-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
               <div class="field">
                 <label for="themeId">主题 ID（小写字母/数字/下划线）</label>
-                <input id="themeId" class="mono" />
+                <input id="themeId" class="mono" placeholder="my_theme" />
               </div>
               <div class="field">
                 <label for="themeName">显示名称</label>
-                <input id="themeName" />
+                <input id="themeName" placeholder="我的主题" />
               </div>
               <div class="field">
                 <label for="themeVersion">版本</label>
-                <input id="themeVersion" class="mono" />
+                <input id="themeVersion" class="mono" placeholder="1.0.0" />
               </div>
               <div class="field">
                 <label for="themeAuthor">作者</label>
-                <input id="themeAuthor" />
+                <input id="themeAuthor" placeholder="张三" />
               </div>
-              <div class="field full">
+              <div class="field full" style="grid-column: 1 / -1;">
                 <label for="themeDesc">描述</label>
-                <textarea id="themeDesc"></textarea>
+                <textarea id="themeDesc" rows="3" placeholder="写点什么介绍一下这个主题吧..."></textarea>
               </div>
               <div class="field">
                 <label for="themeMinApp">最小 App 版本</label>
-                <input id="themeMinApp" class="mono" />
+                <input id="themeMinApp" class="mono" placeholder="1.0.0" />
               </div>
               <div class="field">
                 <label for="themeMinPlatform">最小平台版本</label>
-                <input id="themeMinPlatform" type="number" class="mono" />
+                <input id="themeMinPlatform" type="number" class="mono" placeholder="1" />
               </div>
             </div>
 
-            <h2 class="section-title">颜色</h2>
-            <div class="field-grid">
-              <div class="field">
-                <label for="themeColor">主题色</label>
-                <input id="themeColor" type="color" />
+            <h2 class="section-title" style="margin-top: 20px;">颜色</h2>
+            <div class="field-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+              <div class="field" style="display: flex; align-items: center; gap: 10px;">
+                <label for="themeColor" style="margin: 0; min-width: 80px;">主题色</label>
+                <input id="themeColor" type="color" value="#ff758c" style="padding: 0; width: 50px; height: 40px; cursor: pointer;" />
               </div>
-              <div class="field">
-                <label for="bgColor">背景色</label>
-                <input id="bgColor" type="color" />
+              <div class="field" style="display: flex; align-items: center; gap: 10px;">
+                <label for="bgColor" style="margin: 0; min-width: 80px;">背景色</label>
+                <input id="bgColor" type="color" value="#ffffff" style="padding: 0; width: 50px; height: 40px; cursor: pointer;" />
               </div>
               <div class="field">
                 <label for="textPrimary">主文字（支持 rgba）</label>
-                <input id="textPrimary" class="mono" />
+                <input id="textPrimary" class="mono" placeholder="#333333" />
               </div>
               <div class="field">
                 <label for="textSecondary">次文字（支持 rgba）</label>
-                <input id="textSecondary" class="mono" />
+                <input id="textSecondary" class="mono" placeholder="#888888" />
               </div>
               <div class="field">
                 <label for="sliderSelected">进度条已选颜色</label>
-                <input id="sliderSelected" class="mono" />
+                <input id="sliderSelected" class="mono" placeholder="#ff758c" />
               </div>
               <div class="field">
                 <label for="sliderUnselected">进度条未选颜色</label>
-                <input id="sliderUnselected" class="mono" />
+                <input id="sliderUnselected" class="mono" placeholder="rgba(0,0,0,0.1)" />
               </div>
             </div>
 
-            <h2 class="section-title">按钮</h2>
-            <div class="field-grid">
+            <h2 class="section-title" style="margin-top: 20px;">按钮</h2>
+            <div class="field-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
               <div class="field">
                 <label for="primaryBg">主按钮背景</label>
-                <input id="primaryBg" class="mono" />
+                <input id="primaryBg" class="mono" placeholder="#ff758c" />
               </div>
               <div class="field">
                 <label for="primaryText">主按钮文字</label>
-                <input id="primaryText" class="mono" />
+                <input id="primaryText" class="mono" placeholder="#ffffff" />
               </div>
               <div class="field">
                 <label for="dangerBg">危险按钮背景</label>
-                <input id="dangerBg" class="mono" />
+                <input id="dangerBg" class="mono" placeholder="#ff4d4f" />
               </div>
               <div class="field">
                 <label for="dangerText">危险按钮文字</label>
-                <input id="dangerText" class="mono" />
+                <input id="dangerText" class="mono" placeholder="#ffffff" />
               </div>
             </div>
 
-            <h2 class="section-title">可选资源文件（打包到 ZIP）</h2>
+            <h2 class="section-title" style="margin-top: 20px;">可选资源文件（打包到 ZIP）</h2>
             <div class="field-grid">
               <div class="field full">
                 <label for="previewFile">预览图（preview.png）</label>
@@ -137,48 +405,253 @@
                 <input id="dangerBtnFile" type="file" accept="image/*" />
               </div>
             </div>
-            <div class="hint">支持直接下载 ZIP：至少包含 `theme.json`，可附带以上文件。</div>
+            <div class="hint" style="font-size: 0.9rem; color: #ff5277; margin-top: 10px;">💡 提示：支持直接下载 ZIP：至少包含 `theme.json`，可附带以上文件。</div>
 
             <div class="builder-actions">
-              <button id="copyBtn" class="btn ghost" type="button">复制 JSON</button>
-              <button id="downloadJsonBtn" class="btn ghost" type="button">下载 JSON</button>
-              <button id="downloadZipBtn" class="btn primary" type="button">下载 ZIP 主题包</button>
-              <button id="resetBtn" class="btn ghost" type="button">重置默认值</button>
+              <button id="copyBtn" class="btn ghost" type="button">📋 复制 JSON</button>
+              <button id="downloadJsonBtn" class="btn ghost" type="button">⬇️ 下载 JSON</button>
+              <button id="downloadZipBtn" class="btn primary" type="button">📦 下载 ZIP 主题包</button>
+              <button id="resetBtn" class="btn ghost" type="button">🔄 重置</button>
             </div>
           </article>
 
           <aside class="builder-panel glass-card">
             <h2 class="section-title" style="margin-top: 0">即时预览</h2>
-            <div class="preview-mock">
+            <div class="preview-mock" style="background: rgba(255,255,255,0.7); border-radius: 20px; padding: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 30px;">
               <div id="mockScreen" class="mock-screen">
                 <div>
-                  <div id="mockTitle" style="font-weight: 700; font-size: 1.05rem">主题预览 · 正在播放</div>
-                  <div id="mockSub" style="font-size: 0.82rem; margin-top: 4px">歌手 - 歌曲名称</div>
+                  <div id="mockTitle" style="font-weight: 700; font-size: 1.05rem; color: #333;">主题预览 · 正在播放</div>
+                  <div id="mockSub" style="font-size: 0.82rem; margin-top: 4px; color: #888;">歌手 - 歌曲名称</div>
                 </div>
 
-                <div class="mock-card">
-                  <div id="mockBody">这是一段正文示例，用于观察文字对比度。</div>
-                  <div id="mockLyric" style="margin-top: 8px; font-weight: 600">♪ 活跃歌词颜色预览</div>
-                  <div id="mockProgress" style="margin-top: 10px; height: 6px; border-radius: 999px; overflow: hidden">
-                    <div id="mockProgressInner" style="height: 100%; width: 62%"></div>
+                <div class="mock-card" style="margin: 20px 0; padding: 15px; background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                  <div id="mockBody" style="color: #4a4a4a;">这是一段正文示例，用于观察文字对比度。</div>
+                  <div id="mockLyric" style="margin-top: 8px; font-weight: 600; color: #ff758c;">♪ 活跃歌词颜色预览</div>
+                  <div id="mockProgress" style="margin-top: 15px; height: 6px; border-radius: 999px; overflow: hidden; background: rgba(0,0,0,0.05);">
+                    <div id="mockProgressInner" style="height: 100%; width: 62%; background: #ff758c;"></div>
                   </div>
                 </div>
 
-                <div class="toolbar-row">
-                  <button id="mockPrimary" class="btn" style="height: 34px">主按钮</button>
-                  <button id="mockDanger" class="btn" style="height: 34px">危险按钮</button>
+                <div class="toolbar-row" style="display: flex; gap: 10px;">
+                  <button id="mockPrimary" class="btn primary" style="height: 34px; font-size: 0.9rem; padding: 0 15px;">主按钮</button>
+                  <button id="mockDanger" class="btn ghost" style="height: 34px; font-size: 0.9rem; padding: 0 15px; color: #ff4d4f; border-color: #ff4d4f;">危险按钮</button>
                 </div>
               </div>
             </div>
 
             <h2 class="section-title">JSON 结果</h2>
-            <div class="hint">可直接保存为主题目录内的 `theme.json`</div>
-            <pre class="json-block"><code id="jsonPreview" class="mono"></code></pre>
+            <div class="hint" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">可直接保存为主题目录内的 `theme.json`</div>
+            <pre class="json-block"><code id="jsonPreview" class="mono">{
+  "id": "my_theme",
+  "name": "我的主题",
+  "version": "1.0.0"
+  /* 更多配置... */
+}</code></pre>
           </aside>
         </section>
       </main>
     </div>
 
+    <!-- 升级版更可爱的小猫 SVG (加入Spotify彩蛋) -->
+    <div id="interactive-cat">
+        <div id="meow-bubble">喵~ 正在用 Spotify 听歌🎵</div>
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <!-- 毛茸茸的尾巴 -->
+            <path id="cat-tail" d="M 140 160 Q 190 190 180 110" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
+            
+            <!-- 胖嘟嘟的身体 -->
+            <path d="M 35 200 C 35 110 165 110 165 200 Z" fill="#fff"/>
+            
+            <!-- 耳朵 -->
+            <path d="M 130 110 L 165 60 C 168 55 175 60 170 68 L 145 115 Z" fill="#fff"/>
+            <path d="M 135 105 L 160 68 C 162 65 166 68 164 72 L 148 108 Z" fill="#ffe6fa"/>
+            <path d="M 70 110 L 35 60 C 32 55 25 60 30 68 L 55 115 Z" fill="#fff"/>
+            <path d="M 65 105 L 40 68 C 38 65 34 68 36 72 L 52 108 Z" fill="#ffe6fa"/>
+            
+            <!-- 大圆脸 -->
+            <ellipse cx="100" cy="135" rx="65" ry="52" fill="#fff"/>
+            
+            <g id="eyes-group">
+                <!-- 大眼睛基底 -->
+                <ellipse cx="70" cy="130" rx="14" ry="17" fill="#fff" stroke="#f0f0f0" stroke-width="2"/>
+                <ellipse cx="130" cy="130" rx="14" ry="17" fill="#fff" stroke="#f0f0f0" stroke-width="2"/>
+                
+                <!-- 瞳孔 (随鼠标移动) -->
+                <g id="pupils">
+                    <circle cx="70" cy="130" r="10" fill="#4a4a4a"/>
+                    <circle cx="130" cy="130" r="10" fill="#4a4a4a"/>
+                    <!-- 灵魂高光 -->
+                    <circle cx="67" cy="126" r="4" fill="#fff"/>
+                    <circle cx="127" cy="126" r="4" fill="#fff"/>
+                    <circle cx="74" cy="134" r="1.5" fill="#fff"/>
+                    <circle cx="134" cy="134" r="1.5" fill="#fff"/>
+                </g>
+            </g>
+            
+            <!-- 小巧的鼻子和嘴巴 -->
+            <polygon points="98,144 102,144 100,147" fill="#ffb3e6"/>
+            <path d="M 92 150 Q 96 155 100 150 Q 104 155 108 150" fill="none" stroke="#ffb3e6" stroke-width="2" stroke-linecap="round"/>
+            
+            <!-- 红晕 -->
+            <ellipse cx="50" cy="142" rx="10" ry="5" fill="#ffb3e6" opacity="0.6"/>
+            <ellipse cx="150" cy="142" rx="10" ry="5" fill="#ffb3e6" opacity="0.6"/>
+
+            <!-- 扒在屏幕边缘的小爪子 -->
+            <path d="M 60 200 C 60 185 80 185 80 200" fill="#fff" stroke="#ffe6fa" stroke-width="3"/>
+            <path d="M 120 200 C 120 185 140 185 140 200" fill="#fff" stroke="#ffe6fa" stroke-width="3"/>
+        </svg>
+    </div>
+
+    <!-- 保留您原有的 JS 逻辑 -->
     <script type="module" src="./assets/js/builder.js"></script>
+
+    <!-- 注入樱花动画与小猫互动 JS -->
+    <script>
+        // --- 樱花飘落动画 ---
+        const canvas = document.getElementById('sakuraCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const petals = [];
+        const numPetals = 60; 
+
+        class Petal {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = 7 + Math.random() * 8;
+                this.speedY = 0.8 + Math.random() * 1.2;
+                this.speedX = -1 + Math.random() * 1.5;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = -0.04 + Math.random() * 0.08;
+                this.flip = Math.random();
+                this.flipSpeed = Math.random() * 0.04;
+                this.opacity = 0.4 + Math.random() * 0.5;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                this.flip += this.flipSpeed;
+
+                this.speedX += (Math.random() - 0.5) * 0.02;
+                if (this.speedX > 2) this.speedX = 2;
+                if (this.speedX < -2) this.speedX = -2;
+
+                if (this.y > canvas.height + this.size || 
+                    this.x < -this.size || 
+                    this.x > canvas.width + this.size) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.scale(Math.sin(this.flip), 1);
+                ctx.globalAlpha = this.opacity;
+
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(this.size / 2, -this.size / 1.5, this.size, this.size / 3, 0, this.size);
+                ctx.bezierCurveTo(-this.size, this.size / 3, -this.size / 2, -this.size / 1.5, 0, 0);
+                ctx.closePath();
+
+                const gradient = ctx.createLinearGradient(0, 0, 0, this.size);
+                gradient.addColorStop(0, '#ffd1eb');
+                gradient.addColorStop(1, '#ff80cc');
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < numPetals; i++) petals.push(new Petal());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < petals.length; i++) {
+                petals[i].update();
+                petals[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 小猫互动逻辑 ---
+        const cat = document.getElementById('interactive-cat');
+        const pupils = document.getElementById('pupils');
+        const bubble = document.getElementById('meow-bubble');
+        const eyesGroup = document.getElementById('eyes-group');
+        let meowTimeout;
+
+        // 视线跟随
+        document.addEventListener('mousemove', (e) => {
+            const catRect = cat.getBoundingClientRect();
+            const catCenterX = catRect.left + catRect.width / 2;
+            const catCenterY = catRect.top + catRect.height * 0.6; 
+
+            const deltaX = e.clientX - catCenterX;
+            const deltaY = e.clientY - catCenterY;
+            const angle = Math.atan2(deltaY, deltaX);
+            
+            const distance = Math.min(Math.hypot(deltaX, deltaY) / 50, 6); 
+
+            const moveX = Math.cos(angle) * distance;
+            const moveY = Math.sin(angle) * distance;
+
+            pupils.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+
+        // 互动点击
+        cat.addEventListener('click', () => {
+            cat.style.transform = 'translateY(-35px) scale(1.08)';
+            setTimeout(() => {
+                cat.style.transform = '';
+            }, 350);
+
+            bubble.style.opacity = '1';
+            bubble.style.transform = 'translateY(-10px) scale(1)';
+            
+            clearTimeout(meowTimeout);
+            meowTimeout = setTimeout(() => {
+                bubble.style.opacity = '0';
+                bubble.style.transform = 'translateY(15px) scale(0.8)';
+            }, 3000); 
+        });
+
+        // 随机灵动眨眼
+        function randomBlink() {
+            eyesGroup.style.transform = 'scaleY(0.05)';
+            setTimeout(() => {
+                eyesGroup.style.transform = 'scaleY(1)';
+            }, 120); 
+
+            if(Math.random() > 0.8) {
+                setTimeout(() => {
+                    eyesGroup.style.transform = 'scaleY(0.05)';
+                    setTimeout(() => { eyesGroup.style.transform = 'scaleY(1)'; }, 120);
+                }, 200);
+            }
+
+            const nextBlink = 2000 + Math.random() * 3500;
+            setTimeout(randomBlink, nextBlink);
+        }
+        setTimeout(randomBlink, 2000);
+    </script>
   </body>
 </html>
